@@ -18,11 +18,9 @@ public class StudentFormDTO {
     @Email(message = "Email is invalid")
     private String email;
     @NotNull
-    @Min(10) @Max(18)
+    @Min(10)
     private Integer age;
     @NotNull @Min(1)
     private Long phone;
-    @NotNull
-    private String courseId;
 }
 

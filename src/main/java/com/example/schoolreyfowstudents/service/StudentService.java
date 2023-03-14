@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Service
 public class StudentService {
 
-    public static final String FILTER = "filter";
+    public static final String FILTER = "EVENT_NAME";
     public static final String STUDENT_CREATED = "STUDENT_CREATED";
     private final StudentRepository studentRepository;
     private final StudentMapper mapper;

@@ -5,7 +5,10 @@ import com.example.schoolreyfowstudents.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.example.schoolreyfowstudents.enums.RoleName.ROLES_ESTUDANTE;
 
 @Log4j2
 @Service
@@ -18,7 +21,8 @@ public class CreateUserStudentService {
         log.info("Creating user for student, username:{}", username);
         final var user = User.builder()
                 .username(username)
-                .password(generatePassword())
+                .password(new BCryptPasswordEncoder().encode(generatePassword()))
+                .role(ROLES_ESTUDANTE.getValue())
                 .build();
         repository.save(user);
         return user;

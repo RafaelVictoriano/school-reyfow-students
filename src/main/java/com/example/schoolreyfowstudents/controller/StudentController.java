@@ -1,8 +1,10 @@
 package com.example.schoolreyfowstudents.controller;
 
+import com.example.schoolreyfowstudents.enums.RoleName;
 import com.example.schoolreyfowstudents.service.StudentService;
 import com.example.schoolreyfowstudents.dto.StudentDTO;
 import com.example.schoolreyfowstudents.dto.StudentFormDTO;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -21,7 +24,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    //@RolesAllowed({STUDENT, TEACHER, COORDINATOR})
+    @RolesAllowed({"ROLES_CORDENADOR"})
     @GetMapping("/{studentId}")
     private ResponseEntity<StudentDTO> get(@PathVariable String studentId) {
         var students = studentService.findStudentById(studentId);

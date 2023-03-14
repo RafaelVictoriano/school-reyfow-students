@@ -17,4 +17,9 @@ public class UserRepository {
         dynamoDBMapper.save(user);
     }
 
+
+    public Optional<User> findByUsername(String username) {
+        return Optional.ofNullable(dynamoDBMapper.load(User.class, username));
+    }
+
 }
