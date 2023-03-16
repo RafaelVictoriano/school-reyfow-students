@@ -1,7 +1,7 @@
 package com.example.schoolreyfowstudents.controller;
 
-import com.example.schoolreyfowstudents.enums.RoleName;
-import com.example.schoolreyfowstudents.service.StudentService;
+import com.example.schoolreyfowstudents.service.FindStudentByIdService;
+import com.example.schoolreyfowstudents.service.OrchestratorStudentCreationFlowService;
 import com.example.schoolreyfowstudents.dto.StudentDTO;
 import com.example.schoolreyfowstudents.dto.StudentFormDTO;
 import jakarta.annotation.security.RolesAllowed;
@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
-
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,23 +20,24 @@ import java.net.URI;
 @RequestMapping(path = "/student")
 public class StudentController {
 
-    private final StudentService studentService;
+    private final OrchestratorStudentCreationFlowService orchestratorStudentCreationFlowService;
+    private final FindStudentByIdService findStudentById;
 
-    @RolesAllowed({"ROLES_CORDENADOR"})
+    @RolesAllowed({"ROLES_CORDENADOR", "ROLES_PROFESSOR", "ROLES_ESTUDANTE"})
     @GetMapping("/{studentId}")
     private ResponseEntity<StudentDTO> get(@PathVariable String studentId) {
-        var students = studentService.findStudentById(studentId);
+        var students = findStudentById.start(studentId);
         log.info("Consult with success");
         return ResponseEntity.ok(students);
     }
 
 
-    //@RolesAllowed(COORDINATOR)
+    @RolesAllowed("ROLES_CORDENADOR")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> post(@Valid @RequestBody StudentFormDTO studentFormDTO, UriComponentsBuilder uri) {
         log.info("Received request for created student, bodyRequest:{}", studentFormDTO);
-        final var studentId = studentService.create(studentFormDTO);
+        final var studentId = orchestratorStudentCreationFlowService.start(studentFormDTO);
         log.info("Student created with success, studentId:{}", studentId);
         final var uriStudentCreated = uri.path("/student/{studentId}").buildAndExpand(studentId).toUri();
         return ResponseEntity.created(uriStudentCreated).build();

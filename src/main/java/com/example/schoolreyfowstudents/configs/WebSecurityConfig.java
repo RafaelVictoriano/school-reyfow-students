@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -33,6 +34,9 @@ public class WebSecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .authorizeHttpRequests(req -> req.requestMatchers(new AntPathRequestMatcher("/actuator/health"))
+                        .permitAll()
+                        .anyRequest().authenticated())
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, ex) -> {
@@ -40,9 +44,6 @@ public class WebSecurityConfig {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
                         }
                 )
-                .and()
-                .authorizeHttpRequests()
-                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()

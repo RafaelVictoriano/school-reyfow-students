@@ -19,12 +19,14 @@ public class CreateUserStudentService {
 
     public User create(final String username) {
         log.info("Creating user for student, username:{}", username);
+        final var password = generatePassword();
         final var user = User.builder()
                 .username(username)
-                .password(new BCryptPasswordEncoder().encode(generatePassword()))
+                .password(new BCryptPasswordEncoder().encode(password))
                 .role(ROLES_ESTUDANTE.getValue())
                 .build();
         repository.save(user);
+        user.setPassword(password);
         return user;
     }
 

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter @Setter
 public class StudentEventDTO {
 
+    private Integer eventCode;
     private String name;
     private String email;
     private String courseName;
