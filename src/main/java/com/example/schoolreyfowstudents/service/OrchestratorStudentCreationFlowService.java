@@ -10,11 +10,14 @@ import com.example.schoolreyfowstudents.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Service
 public class OrchestratorStudentCreationFlowService {
 
-    public static final Integer EVENT_STUDENT_CREATED = 10;
+
+
     private final StudentRepository studentRepository;
     private final StudentMapper mapper;
     private final PublishTopic publishTopic;
@@ -34,13 +37,12 @@ public class OrchestratorStudentCreationFlowService {
     private void dispatcherStudentEvent(Student student, User user) {
         final var event = StudentEventDTO
                 .builder()
-                .eventCode(EVENT_STUDENT_CREATED)
-                .email(student.getEmail())
-                .name(student.getName())
+                .studentEmail(student.getEmail())
+                .studentEmail(student.getName())
                 .courseName(student.getName())
                 .password(user.getPassword())
                 .build();
 
-        publishTopic.pubTopic(event);
+        publishTopic.pubTopic(event, Map.of("EVENT", "STUDENT_CREATED"));
     }
 }

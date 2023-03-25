@@ -5,12 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Builder
-@Getter @Setter
+@Getter
+@Setter
 public class StudentEventDTO {
 
-    private Integer eventCode;
-    private String name;
-    private String email;
+    private String studentName;
+    private String studentEmail;
     private String courseName;
     private String password;
 

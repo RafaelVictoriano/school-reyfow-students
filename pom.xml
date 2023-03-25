@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>school-reyfow-students</artifactId>
-    <version>RC-04</version>
+    <version>RC-05</version>
     <name>school-reyfow-students</name>
     <description>school-reyfow-students</description>
     <properties>
