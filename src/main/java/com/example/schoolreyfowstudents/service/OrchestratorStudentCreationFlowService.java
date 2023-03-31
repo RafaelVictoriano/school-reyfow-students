@@ -37,9 +37,8 @@ public class OrchestratorStudentCreationFlowService {
     private void dispatcherStudentEvent(Student student, User user) {
         final var event = StudentEventDTO
                 .builder()
-                .studentEmail(student.getEmail())
-                .studentEmail(student.getName())
-                .courseName(student.getName())
+                .email(student.getEmail())
+                .studentName(student.getName())
                 .password(user.getPassword())
                 .build();
 
